@@ -7,12 +7,11 @@ builder.Services.AddAuthentication("Bearer")
             options.Authority = "https://localhost:5001";
             options.TokenValidationParameters = new()
             {
-                ValidateAudience = false // Probacemo sa truom posle
+                ValidateAudience = false 
             };
         });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("ApiScope", policy =>
@@ -21,9 +20,7 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("scope", "api1");
     });
 });
-
 var app = builder.Build();
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -32,14 +29,11 @@ if (app.Environment.IsDevelopment())
 }
 app.UseRouting();
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers()
              .RequireAuthorization("ApiScope");
 });
-
 app.Run();
